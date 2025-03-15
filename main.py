@@ -3,7 +3,7 @@ import yfinance as yf
 import plotly.express as px
 
 # Streamlit UI setup
-st.title("Stock Dashboard")
+st.title("Welcome to Your Stock Dashboard")
 
 # User input for stock ticker
 ticker = st.text_input("Enter Stock Ticker (e.g., AAPL, TSLA, MSFT)", "AAPL").upper()
@@ -21,8 +21,10 @@ if ticker:
         st.error("No data found for the given ticker. Please enter a valid stock symbol.")
     else:
         st.subheader(f"Stock Price Data for {ticker}")
-        st.write(data)
         
         # Plot price movement
         fig = px.line(data, x=data.index, y='Close', title=f"{ticker} Stock Price Movement")
         st.plotly_chart(fig)
+
+        st.text('Raw data')
+        st.write(data)
