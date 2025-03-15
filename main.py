@@ -58,12 +58,12 @@ if ticker:
                 plot_bgcolor='rgba(0,0,0,0)',  # Make plot background transparent
                 paper_bgcolor='rgba(0,0,0,0)', # Make paper background transparent
                 font=dict(color="#FFFFFF"), # Set font color to white
-                selectdirection='horizontal', # Only allow horizontal select
+                selectdirection='h', # Only allow horizontal select
                 # Add zoom behavior
                 xaxis_fixedrange=False,
                 yaxis_fixedrange=False
             )
-            
+
             fig.update_xaxes(gridcolor='lightgrey')
             fig.update_yaxes(gridcolor='lightgrey')
 
