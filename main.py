@@ -126,22 +126,46 @@ if ticker:
         
         with tabs[3]:
             st.subheader("Stock Price Prediction")
-            forecast_days = st.slider("Select Forecast Period (days)", 30, 365, 180)
-            
+            st.write("Here, we use the Prophet model to predict future stock prices based on historical data.")
+            st.write("Select the number of days you want to forecast:")
+
+            forecast_days = st.slider("Forecast Horizon (days)", 30, 365, 180)
+
+            st.write("Preparing data for the prediction model...")
+
+            # Data preparation: Prophet requires a specific format with 'ds' (date) and 'y' (value) columns.
             df_train = data[['Close']].reset_index()
             df_train.rename(columns={'Date': 'ds', 'Close': 'y'}, inplace=True)
-            df_train['ds'] = df_train['ds'].dt.tz_localize(None)  # Removing timezone
-            
+            df_train['ds'] = df_train['ds'].dt.tz_localize(None)  # Removing timezone information
+
+            st.write("Training the prediction model...")
+            # Model Training:  We initialize and train the Prophet model.
             model = Prophet()
             model.fit(df_train)
-            
+
+            st.write("Making predictions...")
+            # Future DataFrame: We create a dataframe that extends into the future for the specified number of days.
             future = model.make_future_dataframe(periods=forecast_days)
+
+            # Prediction:  We use the trained model to predict future stock prices.
             forecast = model.predict(future)
-            
+
+            st.write("Displaying the predicted stock prices...")
+            # Plotting: We create an interactive plot of the predicted stock prices.
             fig_pred = px.line(forecast, x='ds', y='yhat', title=f'{ticker} Stock Price Prediction',
                                labels={'ds': 'Date', 'yhat': 'Predicted Price'}, color_discrete_sequence=['#FF5733'])
+            fig_pred.add_trace(go.Scatter(x=df_train['ds'], y=df_train['y'], mode='lines', name='Historical Data')) # Overlay historical data
+
             st.plotly_chart(fig_pred)
-            
-            st.write("Prediction Components")
+
+            st.write("The blue line represents the predicted stock price, while the orange line presents the historical data.")
+            st.write("---")
+            st.write("Understanding the Prediction Components:")
+            st.write("The following plots show how different factors influence the prediction.")
+
+            # Components Plot:  We display the components of the forecast (trend, seasonality).
             fig_components = model.plot_components(forecast)
             st.pyplot(fig_components)
+
+            st.write("The first plot shows the overall trend of the stock price.  The second plot shows yearly seasonality, and the third plot shows weekly seasonality.")
+            st.write("Please note that these predictions are based on historical data and may not be accurate. Use this information for informational purposes only and not as financial advice.")
