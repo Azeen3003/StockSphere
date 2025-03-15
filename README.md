@@ -1,57 +1,55 @@
-# 📈 StockSphere
+# StockSphere
 
-StockSphere is a one-stop destination for real-time stock insights, analytics, and predictions. It provides users with pricing data, fundamental analysis, stock news, and future stock price predictions.
+StockSphere is a comprehensive stock dashboard providing real-time stock insights, analytics, and predictions. Built using Streamlit, it offers an interactive interface for users to explore stock prices, fundamental data, news sentiment analysis, and future price predictions.
 
-## 🚀 Features
+## Features
+- **Real-time stock data** using Yahoo Finance API
+- **Interactive charts** for stock price movements
+- **Fundamental data** including market cap, revenue, and industry details
+- **News sentiment analysis** to gauge market sentiment
+- **Stock price predictions** powered by Prophet
+- **User-friendly interface** with an intuitive layout
 
-- **Real-time Stock Data**: Fetch historical stock prices and visualize them with interactive charts.
-- **Fundamental Analysis**: View financial statements, sector details, and key metrics.
-- **Stock News**: Get the latest news articles on selected stocks with sentiment analysis.
-- **Stock Price Prediction**: Forecast stock prices using Meta's Prophet model.
-- **User-Friendly Interface**: Simple and interactive dashboard powered by Streamlit.
+## Deployment
+StockSphere is live at: [StockSphere Web App](https://stocksphere-az.streamlit.app/)
 
-## 🛠️ Installation
+## Installation
+To run this project locally, follow these steps:
 
-### Prerequisites
-Ensure you have Python 3.8+ installed on your system.
+```bash
+# Clone the repository
+git clone https://github.com/Azeen0330/StockSphere.git
+cd StockSphere
 
-### Setup
+# Install dependencies
+pip install -r requirements.txt
 
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/Azeen0330/StockSphere.git
-   cd StockSphere
-   ```
-2. Create a virtual environment (optional but recommended):
-   ```sh
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-   ```
-3. Install dependencies:
-   ```sh
-   pip install -r requirements.txt
-   ```
-4. Run the application:
-   ```sh
-   streamlit run main.py
-   ```
+# Run the app
+streamlit run main.py
+```
 
-## 📷 Screenshots
-to be added
+## Requirements
+Ensure you have the following dependencies installed:
 
-## 🌐 Deployment
-To deploy StockSphere on Streamlit Cloud:
+```txt
+streamlit
+yfinance
+numpy
+pandas
+plotly
+textblob
+prophet
+```
 
-1. Push your project to GitHub.
-2. Go to [Streamlit Cloud](https://share.streamlit.io/) and sign in.
-3. Click "New App" and select your repository.
-4. Configure the main script (`main.py`) and click "Deploy."
+## Usage
+1. Enter a stock ticker symbol in the sidebar.
+2. Select the desired time period.
+3. View interactive stock charts and fundamental data.
+4. Explore sentiment analysis of stock-related news.
+5. Forecast stock prices using AI-powered predictions.
 
-## 📝 License
-This project is open-source and available under the MIT License
+## Contributing
+Contributions are welcome! Feel free to open issues or submit pull requests.
 
-## 📩 Contact
-For any questions or suggestions, feel free to reach out!
-
----
-_StockSphere - Your all-in-one stock market companion!_
+## License
+This project is open-source and available under the MIT License.
