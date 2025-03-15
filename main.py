@@ -151,7 +151,7 @@ if ticker:
                                            name='Historical Data'))
             st.plotly_chart(fig_pred)
 
-            st.write("The blue line represents the predicted stock price, while the orange line presents the historical data.")
+            st.write("The orange/red line represents the predicted stock price, while the blue line presents the historical data.")
             st.write("---")
             st.write("The model attempts to capture longer-term trends and any yearly patterns in the stock price.  The slider above controls how strongly the yearly pattern influences the forecast.")
             st.write("Please note that these predictions are based on historical data and may not be accurate. Use this information for informational purposes only and not as financial advice.")
