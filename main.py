@@ -22,42 +22,10 @@ st.markdown(
 )
 st.sidebar.header("Stock Selection")
 
-@st.cache_data
-def get_ticker_name_mapping():
-    """Fetches a list of all available stock tickers and company names from Yahoo Finance."""
-    try:
-        url = "https://raw.githubusercontent.com/dataprofessor/sp500-ticker-symbol/main/constituents.csv" #S and P 500 List
-        df = pd.read_csv(url)
-        #Create a list of tickers with company name eg: MMM - 3M CO
-        ticker_to_name = {row['Symbol']: f"{row['Symbol']} - {row['Name']}" for index, row in df.iterrows()}
-        return ticker_to_name
+st.sidebar.write("Enter Stock Ticker (Symbol)")
+st.sidebar.write("If you're unsure of the stock ticker, you can find it [here](https://stockanalysis.com/stocks/).")
 
-    except Exception as e:
-        st.error(f"Error fetching tickers: {e}")
-        return {}
-
-
-ticker_to_name = get_ticker_name_mapping()
-
-# Autocomplete suggestions:
-selected_company = st.sidebar.selectbox("Enter Stock Ticker or Company Name", options=list(ticker_to_name.values())) #Uses list of name - ticker
-
-
-#Get the ticker selected from the selected name.
-selected_ticker = None
-for ticker, name in ticker_to_name.items():
-    if name == selected_company:
-        selected_ticker = ticker
-        break
-
-if selected_ticker:
-    st.sidebar.write(f"You selected ticker: {selected_ticker}") # Show in side bar
-else:
-    st.sidebar.write("No ticker selected.")
-
-
-# Use selected_ticker in your app to fetch data with yfinance
-ticker = selected_ticker # Overwrite the old ticker
+ticker = st.sidebar.text_input("Stock Ticker") # Use ticker in text input
 
 period = st.sidebar.selectbox("Select Time Period", ['1mo', '3mo', '6mo', '1y', '2y', '5y', 'max'])
 
