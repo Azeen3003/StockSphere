@@ -21,7 +21,44 @@ st.markdown(
     unsafe_allow_html=True
 )
 st.sidebar.header("Stock Selection")
-ticker = st.sidebar.text_input("Enter Stock Ticker")
+
+@st.cache_data
+def get_ticker_name_mapping():
+    """Fetches a list of all available stock tickers and company names from Yahoo Finance."""
+    try:
+        url = "https://raw.githubusercontent.com/dataprofessor/sp500-ticker-symbol/main/constituents.csv" #S and P 500 List
+        df = pd.read_csv(url)
+        #Create a list of tickers with company name eg: MMM - 3M CO
+        ticker_to_name = {row['Symbol']: f"{row['Symbol']} - {row['Name']}" for index, row in df.iterrows()}
+        return ticker_to_name
+
+    except Exception as e:
+        st.error(f"Error fetching tickers: {e}")
+        return {}
+
+
+ticker_to_name = get_ticker_name_mapping()
+
+# Autocomplete suggestions:
+selected_company = st.sidebar.selectbox("Enter Stock Ticker or Company Name", options=list(ticker_to_name.values())) #Uses list of name - ticker
+
+
+#Get the ticker selected from the selected name.
+selected_ticker = None
+for ticker, name in ticker_to_name.items():
+    if name == selected_company:
+        selected_ticker = ticker
+        break
+
+if selected_ticker:
+    st.sidebar.write(f"You selected ticker: {selected_ticker}") # Show in side bar
+else:
+    st.sidebar.write("No ticker selected.")
+
+
+# Use selected_ticker in your app to fetch data with yfinance
+ticker = selected_ticker # Overwrite the old ticker
+
 period = st.sidebar.selectbox("Select Time Period", ['1mo', '3mo', '6mo', '1y', '2y', '5y', 'max'])
 
 if ticker:
@@ -41,33 +78,12 @@ if ticker:
             st.subheader(f"Stock Price for {ticker}")
 
             fig = go.Figure(data=[go.Candlestick(x=data.index,
-                                        open=data['Open'],
-                                        high=data['High'],
-                                        low=data['Low'],
-                                        close=data['Close'])])
-            fig.update_layout(
-                title=f'{ticker} Stock Price Movement',
-                xaxis_title='Date',
-                yaxis_title='Price',
-                xaxis=dict(
-                   rangeslider=dict(
-                       visible=False  # Remove range slider
-                    )
-                ),
-                dragmode='select',  # Enable rectangular selection zoom
-                plot_bgcolor='rgba(0,0,0,0)',  # Make plot background transparent
-                paper_bgcolor='rgba(0,0,0,0)', # Make paper background transparent
-                font=dict(color="#FFFFFF"), # Set font color to white
-                selectdirection='h', # Only allow horizontal select
-                # Add zoom behavior
-                xaxis_fixedrange=False,
-                yaxis_fixedrange=False
-            )
-
-            fig.update_xaxes(gridcolor='lightgrey')
-            fig.update_yaxes(gridcolor='lightgrey')
-
-            st.plotly_chart(fig, use_container_width=True)
+                                            open=data['Open'],
+                                            high=data['High'],
+                                            low=data['Low'],
+                                            close=data['Close'])])
+            fig.update_layout(title=f'{ticker} Stock Price Movement', xaxis_title='Date', yaxis_title='Price')
+            st.plotly_chart(fig)
 
             st.subheader("Stock Statistics")
             col1, col2, col3 = st.columns(3)
