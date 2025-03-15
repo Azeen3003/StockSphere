@@ -39,18 +39,35 @@ if ticker:
 
         with tabs[0]:
             st.subheader(f"Stock Price for {ticker}")
+
             fig = go.Figure(data=[go.Candlestick(x=data.index,
                                         open=data['Open'],
                                         high=data['High'],
                                         low=data['Low'],
                                         close=data['Close'])])
             fig.update_layout(
-            title=f'{ticker} Stock Price Movement',
-            xaxis_title='Date',
-            yaxis_title='Price',
-            dragmode='select'  # Enable rectangular selection zoom
-        )
-            st.plotly_chart(fig)
+                title=f'{ticker} Stock Price Movement',
+                xaxis_title='Date',
+                yaxis_title='Price',
+                xaxis=dict(
+                   rangeslider=dict(
+                       visible=False  # Remove range slider
+                    )
+                ),
+                dragmode='select',  # Enable rectangular selection zoom
+                plot_bgcolor='rgba(0,0,0,0)',  # Make plot background transparent
+                paper_bgcolor='rgba(0,0,0,0)', # Make paper background transparent
+                font=dict(color="#FFFFFF"), # Set font color to white
+                selectdirection='horizontal', # Only allow horizontal select
+                # Add zoom behavior
+                xaxis_fixedrange=False,
+                yaxis_fixedrange=False
+            )
+            
+            fig.update_xaxes(gridcolor='lightgrey')
+            fig.update_yaxes(gridcolor='lightgrey')
+
+            st.plotly_chart(fig, use_container_width=True)
 
             st.subheader("Stock Statistics")
             col1, col2, col3 = st.columns(3)
