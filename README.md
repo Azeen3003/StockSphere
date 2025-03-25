@@ -18,7 +18,7 @@ To run this project locally, follow these steps:
 
 ```bash
 # Clone the repository
-git clone https://github.com/Azeen0330/StockSphere.git
+git clone https://github.com/Azeen3003/StockSphere.git
 cd StockSphere
 
 # Install dependencies
